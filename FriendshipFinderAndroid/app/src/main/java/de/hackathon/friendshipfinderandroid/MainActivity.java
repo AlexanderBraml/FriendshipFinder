@@ -6,7 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,37 +37,27 @@ public class MainActivity extends AppCompatActivity {
                 android.Manifest.permission.BLUETOOTH_SCAN};
         ActivityCompat.requestPermissions(this, permissions, 12453);
 
-        // Überprüfe, ob Bluetooth auf dem Gerät verfügbar ist
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
-            // Bluetooth wird auf diesem Gerät nicht unterstützt
-            // Füge hier eine geeignete Behandlung hinzu
             return;
         }
 
-        // Überprüfe, ob Bluetooth aktiviert ist
         if (!bluetoothAdapter.isEnabled()) {
-            // Bluetooth ist deaktiviert, fordere den Benutzer auf, es zu aktivieren
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, 1);
         }
 
-        // Initialisiere die ListView für die Bluetooth-Geräte
         ListView devicesListView = findViewById(R.id.devicesListView);
         devicesArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         devicesListView.setAdapter(devicesArrayAdapter);
 
-        // Zeige bereits gepaarte Geräte an
         showPairedDevices();
-        //Not used right now
 
-        // Registriere den BroadcastReceiver für Geräteentdeckung
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter);
 
-        // Starte die Geräteentdeckung
-        Log.d("lool","test1");
-        Log.d("lool","after");
+        Log.d("lool", "test1");
+        Log.d("lool", "after");
 
         bluetoothAdapter.startDiscovery();
     }
@@ -76,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Beende die Geräteentdeckung und unregister den BroadcastReceiver
         if (bluetoothAdapter != null) {
             bluetoothAdapter.cancelDiscovery();
         }
@@ -84,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showPairedDevices() {
-        // Zeige bereits gepaarte Geräte an
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
@@ -93,15 +80,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // BroadcastReceiver für die Geräteentdeckung
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                // Ein neues Bluetooth-Gerät wurde gefunden
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if(device.getName()!= null) {
+                if (device.getName() != null) {
                     devicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
                 }
             }
