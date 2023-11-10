@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         devicesArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         devicesListView.setAdapter(devicesArrayAdapter);
 
-        showPairedDevices();
+        // showPairedDevices();
 
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter);
