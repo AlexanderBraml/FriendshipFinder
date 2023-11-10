@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> devicesArrayAdapter;
     private final Handler handler = new Handler();
     private static final long SCAN_INTERVAL = 10 * 1000; // Scan every 10 seconds
+    private BleSender Bls;
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
@@ -41,27 +42,34 @@ public class MainActivity extends AppCompatActivity {
                 android.Manifest.permission.BLUETOOTH_SCAN};
         ActivityCompat.requestPermissions(this, permissions, 12453);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (bluetoothAdapter == null) {
-            return;
-        }
+//        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//        if (bluetoothAdapter == null) {
+//            return;
+//        }
+//        boolean succ = bluetoothAdapter.setName("E");
 
-        if (!bluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, 1);
-        }
+        //Log.d("bls", "" + succ);
+//
+//        if (!bluetoothAdapter.isEnabled()) {
+//            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//            startActivityForResult(enableBtIntent, 1);
+//        }
+//        Bls = new BleSender(bluetoothAdapter);
+//        Bls.SetAdvertiseSetting();
+//        Bls.SetAdvertiseData();
+//        Bls.StartAdvertising();
 
-        ListView devicesListView = findViewById(R.id.devicesListView);
-        devicesArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        devicesListView.setAdapter(devicesArrayAdapter);
+       ListView devicesListView = findViewById(R.id.devicesListView);
+       devicesArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+       devicesListView.setAdapter(devicesArrayAdapter);
 
         // showPairedDevices();
 
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(receiver, filter);
-        Log.d("yeet","test");
-
-        startDeviceDiscovery();
+       IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+       registerReceiver(receiver, filter);
+       //startDeviceDiscovery();
+        PeripheralManager m = new PeripheralManager(getBaseContext());
+        m.startAdvertising();
     }
 
     private void startDeviceDiscovery() {
@@ -98,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        Set<String> bluetoothDevices = new HashSet<>();
+        final Set<String> bluetoothDevices = new HashSet<>();
 
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
