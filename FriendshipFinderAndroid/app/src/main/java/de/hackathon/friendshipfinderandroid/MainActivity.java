@@ -12,12 +12,13 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.os.Handler;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter);
-
-        Log.d("lool", "test1");
-        Log.d("lool", "after");
+        Log.d("yeet","test");
 
         startDeviceDiscovery();
     }
@@ -99,13 +98,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
+        Set<String> bluetoothDevices = new HashSet<>();
+
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if (device.getName() != null) {
-                    devicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                if(!bluetoothDevices.contains(device.getAddress())) {
+                    bluetoothDevices.add(device.getAddress());
+                    if (device.getName() != null) {
+                        devicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                    }
                 }
             }
         }
