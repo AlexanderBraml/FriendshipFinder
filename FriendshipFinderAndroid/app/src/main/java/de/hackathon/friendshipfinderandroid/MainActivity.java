@@ -6,8 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -58,12 +60,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Zeige bereits gepaarte Geräte an
         showPairedDevices();
+        //Not used right now
 
         // Registriere den BroadcastReceiver für Geräteentdeckung
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver, filter);
 
         // Starte die Geräteentdeckung
+        Log.d("lool","test1");
+        Log.d("lool","after");
+
         bluetoothAdapter.startDiscovery();
     }
 
@@ -95,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Ein neues Bluetooth-Gerät wurde gefunden
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                devicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                if(device.getName()!= null) {
+                    devicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                }
             }
         }
     };
