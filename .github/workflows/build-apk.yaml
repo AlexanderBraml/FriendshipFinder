@@ -13,6 +13,7 @@ jobs:
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
+          distribution: corretto
           java-version: 17
       - name: Build APK
         run: cd FriendshipFinderAndroid && bash ./gradlew assembleDebug --stacktrace
