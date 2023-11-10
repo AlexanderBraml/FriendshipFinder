@@ -1,0 +1,28 @@
+name: Minimal Android CI Workflow
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+
+jobs:
+  apk:
+    name: Generate APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: corretto
+          java-version: 17
+      - name: Build APK
+        run: cd FriendshipFinderAndroid && bash ./gradlew assembleDebug --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: FriendshipFinderAndroidDebug.apk
+          path: FriendshipFinderAndroid/app/build/outputs/apk/debug/app-debug.apk
