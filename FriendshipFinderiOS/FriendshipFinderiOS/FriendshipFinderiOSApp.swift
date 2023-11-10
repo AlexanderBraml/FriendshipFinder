@@ -12,6 +12,7 @@ struct FriendshipFinderiOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: Profile.self)
         }
     }
 }

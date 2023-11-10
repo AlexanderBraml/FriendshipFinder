@@ -17,7 +17,7 @@ class PeripheralController: NSObject, ObservableObject, CBPeripheralManagerDeleg
     override private init() {
         super.init()
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
-        service = CBUUID(nsuuid: UUID())
+        service = CBUUID(nsuuid: UUID(uuidString: "0949F341-11A9-4BF9-BE13-877D2FD8946E")!)
     }
     
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
@@ -43,10 +43,9 @@ class PeripheralController: NSObject, ObservableObject, CBPeripheralManagerDeleg
     
     func addServices() {
         let valueData = value.data(using: .utf8)
-        let myChar1 = CBMutableCharacteristic(type: CBUUID(nsuuid: UUID()), properties: [.notify, .write, .read], value: nil, permissions: [.readable, .writeable])
-        let myChar2 = CBMutableCharacteristic(type: CBUUID(nsuuid: UUID()), properties: [.read], value: valueData, permissions: [.readable])
+        let myChar = CBMutableCharacteristic(type: CBUUID(nsuuid: UUID()), properties: [.read], value: valueData, permissions: [.readable])
         let myService = CBMutableService(type: service, primary: true)
-        myService.characteristics = [myChar1, myChar2]
+        myService.characteristics = [myChar]
         peripheralManager.add(myService)
         startAdvertising()
     }

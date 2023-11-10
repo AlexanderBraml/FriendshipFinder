@@ -11,8 +11,15 @@ struct BluetoothDeviceListView: View {
     @ObservedObject var bc: BluetoothController = BluetoothController.shared
     @ObservedObject var pc: PeripheralController = PeripheralController.shared
     
+    @Binding var path: NavigationPath
+    
     var body: some View {
         VStack {
+            Button {
+                path.append("profile")
+            } label: {
+                Text("Profile")
+            }
             Text("Devices")
             Button {
                 if (bc.state == .poweredOn) {
@@ -31,5 +38,5 @@ struct BluetoothDeviceListView: View {
 }
 
 #Preview {
-    BluetoothDeviceListView()
+    BluetoothDeviceListView(path: .constant(NavigationPath()))
 }

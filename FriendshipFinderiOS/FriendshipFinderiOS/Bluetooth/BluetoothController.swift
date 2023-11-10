@@ -45,7 +45,7 @@ class BluetoothController: NSObject, ObservableObject, CBCentralManagerDelegate,
     }
 
     func startScanning() {
-        centralManager.scanForPeripherals(withServices: nil, options: nil)
+        centralManager.scanForPeripherals(withServices: [CBUUID(nsuuid: UUID(uuidString: "0949F341-11A9-4BF9-BE13-877D2FD8946E")!)], options: nil)
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
@@ -78,6 +78,10 @@ struct Device: Identifiable, Hashable, Comparable {
     
     static func == (lhs: Device, rhs: Device) -> Bool {
         lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
     
     static func < (lhs: Device, rhs: Device) -> Bool {

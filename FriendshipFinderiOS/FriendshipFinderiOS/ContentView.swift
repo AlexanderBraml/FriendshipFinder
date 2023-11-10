@@ -6,10 +6,25 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Query var profiles: [Profile]
+    
+    @State var path = NavigationPath()
+    
     var body: some View {
-        BluetoothDeviceListView()
+        NavigationStack(path: $path) {
+            BluetoothDeviceListView(path: $path)
+                .navigationDestination(for: String.self) { string in
+                    switch (string) {
+                    case "profile":
+                        ProfileView()
+                    default:
+                        Text(string)
+                    }
+                }
+        }
     }
 }
 
