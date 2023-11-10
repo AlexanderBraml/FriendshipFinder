@@ -28,6 +28,11 @@ struct BluetoothDeviceListView: View {
             } label: {
                 Text("Scan")
             }
+            Button {
+                pc.startAdvertising()
+            } label: {
+                Text("Advertise")
+            }
             List {
                 ForEach(bc.devices.sorted(by: >)) { device in
                     Text("\(device.name): \(device.id)")

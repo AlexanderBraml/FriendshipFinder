@@ -19,50 +19,47 @@ import android.util.Log;
 import java.util.UUID;
 
 public class PeripheralManager extends BluetoothGattServerCallback {
-    BluetoothGattService BGS = new BluetoothGattService(UUID.fromString("0949f341-11a9-4bf9-be13-877d2fd8946e"),BluetoothGattService.SERVICE_TYPE_PRIMARY);
     BluetoothGattServer server;
-    BluetoothLeAdvertiser BLA = BluetoothAdapter.getDefaultAdapter().getBluetoothLeAdvertiser();
+    BluetoothGattService service;
+    BluetoothLeAdvertiser advertiser = BluetoothAdapter.getDefaultAdapter().getBluetoothLeAdvertiser();
+
+    AdvertiseSettings settings = new AdvertiseSettings.Builder()
+            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
+            .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH)
+            .setConnectable(true)
+            .build();
+    AdvertiseData data = new AdvertiseData.Builder()
+            .setIncludeDeviceName(false)
+            .addServiceUuid(new ParcelUuid(UUID.fromString("0949f341-11a9-4bf9-be13-877d2fd8946e")))
+            .build();
+    AdvertiserCallback callback = new AdvertiserCallback();
 
     public PeripheralManager(Context context){
          server = ((BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE)).openGattServer(context,this);
+         service = new BluetoothGattService(UUID.fromString("0949f341-11a9-4bf9-be13-877d2fd8946e"),BluetoothGattService.SERVICE_TYPE_PRIMARY);
+         addCServices();
     }
 
-
-    public void addCharacteristic(){
-        BluetoothGattCharacteristic BGC = new BluetoothGattCharacteristic(UUID.randomUUID(),BluetoothGattCharacteristic.PROPERTY_READ,BluetoothGattCharacteristic.PERMISSION_READ);
-        BGS.addCharacteristic(BGC);
-        server.addService(BGS);
+    public void addCServices(){
+        BluetoothGattCharacteristic char1 = new BluetoothGattCharacteristic(UUID.randomUUID(),BluetoothGattCharacteristic.PROPERTY_READ,BluetoothGattCharacteristic.PERMISSION_READ);
+        service.addCharacteristic(char1);
+        server.addService(service);
     }
     public void startAdvertising() {
-
-        addCharacteristic();
-
-       AdvertiseSettings settings = new AdvertiseSettings.Builder()
-                .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
-                .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH)
-                .setConnectable(true)
-                .build();
-       AdvertiseData data = new AdvertiseData.Builder()
-                .setIncludeDeviceName(false)
-                .addServiceUuid(new ParcelUuid(UUID.fromString("0949f341-11a9-4bf9-be13-877d2fd8946e")))
-                // Add other data if needed
-                .build();
-
-        AdvertiseCallback AC = new AdvertiseCallback() {
-            public void onStartSuccess(AdvertiseSettings settingsInEffect) {
-                super.onStartSuccess(settingsInEffect);
-                // Advertising started successfully
-                Log.d("bls","Bluetoth advertising started");
-            }
-
-            public void onStartFailure(int errorCode) {
-                super.onStartFailure(errorCode);
-                // Handle advertising failure
-                Log.e("bls","Failed to start advertising " + errorCode);
-            }
-        };
-
-        BLA.startAdvertising(settings,data,AC);
+        advertiser.startAdvertising(settings,data,callback);
     }
 
+    class AdvertiserCallback extends AdvertiseCallback {
+        public void onStartSuccess(AdvertiseSettings settingsInEffect) {
+            super.onStartSuccess(settingsInEffect);
+            // Advertising started successfully
+            Log.d("bls","Bluetoth advertising started");
+        }
+
+        public void onStartFailure(int errorCode) {
+            super.onStartFailure(errorCode);
+            // Handle advertising failure
+            Log.e("bls","Failed to start advertising " + errorCode);
+        }
+    };
 }

@@ -11,13 +11,12 @@ import CoreBluetooth
 class PeripheralController: NSObject, ObservableObject, CBPeripheralManagerDelegate {
     static let shared = PeripheralController()
     private var peripheralManager : CBPeripheralManager!
-    private var service: CBUUID!
-    private let value = "Friend"
+    private var service: CBMutableService!
     
     override private init() {
         super.init()
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
-        service = CBUUID(nsuuid: UUID(uuidString: "0949F341-11A9-4BF9-BE13-877D2FD8946E")!)
+        service = CBMutableService(type: CBUUID(nsuuid: UUID(uuidString: "0949F341-11A9-4BF9-BE13-877D2FD8946E")!), primary: true)
     }
     
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
@@ -42,16 +41,14 @@ class PeripheralController: NSObject, ObservableObject, CBPeripheralManagerDeleg
     }
     
     func addServices() {
-        let valueData = value.data(using: .utf8)
+        let valueData = "Friend".data(using: .utf8)
         let myChar = CBMutableCharacteristic(type: CBUUID(nsuuid: UUID()), properties: [.read], value: valueData, permissions: [.readable])
-        let myService = CBMutableService(type: service, primary: true)
-        myService.characteristics = [myChar]
-        peripheralManager.add(myService)
-        startAdvertising()
+        service.characteristics = [myChar]
+        peripheralManager.add(service)
     }
     
     func startAdvertising() {
-        peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey : "FriendFinder", CBAdvertisementDataServiceUUIDsKey: [service]])
+        peripheralManager.startAdvertising([CBAdvertisementDataLocalNameKey : "FriendFinder", CBAdvertisementDataServiceUUIDsKey: [service.uuid]])
         print("Started Advertising")
     }
 }
