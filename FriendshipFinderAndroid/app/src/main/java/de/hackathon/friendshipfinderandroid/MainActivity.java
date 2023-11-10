@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         devicesListView.setAdapter(devicesArrayAdapter);
 
         // Zeige bereits gepaarte Geräte an
-        showPairedDevices();
+        //showPairedDevices();
         //Not used right now
 
         // Registriere den BroadcastReceiver für Geräteentdeckung
