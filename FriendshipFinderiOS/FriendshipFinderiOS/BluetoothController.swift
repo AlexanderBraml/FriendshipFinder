@@ -11,8 +11,8 @@ import CoreBluetooth
 
 class BluetoothController: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     static let shared = BluetoothController()
-    var centralManager: CBCentralManager!
-    var nearbyDevices: Set<Device> = []
+    private var centralManager: CBCentralManager!
+    private var nearbyDevices: Set<Device> = []
     @Published var devices: Set<Device> = []
 
     override private init() {
@@ -25,13 +25,23 @@ class BluetoothController: NSObject, ObservableObject, CBCentralManagerDelegate,
     }
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        /*if central.state == .poweredOn {
-            // Bluetooth is ready
-            startScanning()
-        } else {
-            // Bluetooth is not ready, handle accordingly
-            print("Bluetooth is not ready")
-        }*/
+        print("BC State:")
+        switch (central.state) {
+        case .unknown:
+            print("Bluetooth Device is UNKNOWN")
+        case .unsupported:
+            print("Bluetooth Device is UNSUPPORTED")
+        case .unauthorized:
+            print("Bluetooth Device is UNAUTHORIZED")
+        case .resetting:
+            print("Bluetooth Device is RESETTING")
+        case .poweredOff:
+            print("Bluetooth Device is POWERED OFF")
+        case .poweredOn:
+            print("Bluetooth Device is POWERED ON")
+        @unknown default:
+            print("Unknown State")
+        }
     }
 
     func startScanning() {

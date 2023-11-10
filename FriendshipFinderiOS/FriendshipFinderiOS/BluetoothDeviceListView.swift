@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BluetoothDeviceListView: View {
     @ObservedObject var bc: BluetoothController = BluetoothController.shared
+    @ObservedObject var pc: PeripheralController = PeripheralController.shared
     
     var body: some View {
         VStack {

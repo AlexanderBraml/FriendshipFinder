@@ -13,6 +13,7 @@
 		E4797EF42AFE704000E556B1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4797EF32AFE704000E556B1 /* Preview Assets.xcassets */; };
 		E4797EFB2AFE7B2E00E556B1 /* BluetoothController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4797EFA2AFE7B2E00E556B1 /* BluetoothController.swift */; };
 		E4797EFD2AFE7D8E00E556B1 /* BluetoothDeviceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4797EFC2AFE7D8E00E556B1 /* BluetoothDeviceListView.swift */; };
+		E4797EFF2AFE95A000E556B1 /* PeripheralController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4797EFE2AFE95A000E556B1 /* PeripheralController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		E4797EF32AFE704000E556B1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E4797EFA2AFE7B2E00E556B1 /* BluetoothController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothController.swift; sourceTree = "<group>"; };
 		E4797EFC2AFE7D8E00E556B1 /* BluetoothDeviceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDeviceListView.swift; sourceTree = "<group>"; };
+		E4797EFE2AFE95A000E556B1 /* PeripheralController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				E4797EFA2AFE7B2E00E556B1 /* BluetoothController.swift */,
 				E4797EF02AFE704000E556B1 /* Assets.xcassets */,
 				E4797EF22AFE704000E556B1 /* Preview Content */,
+				E4797EFE2AFE95A000E556B1 /* PeripheralController.swift */,
 			);
 			path = FriendshipFinderiOS;
 			sourceTree = "<group>";
@@ -146,6 +149,7 @@
 				E4797EEF2AFE703E00E556B1 /* ContentView.swift in Sources */,
 				E4797EFD2AFE7D8E00E556B1 /* BluetoothDeviceListView.swift in Sources */,
 				E4797EFB2AFE7B2E00E556B1 /* BluetoothController.swift in Sources */,
+				E4797EFF2AFE95A000E556B1 /* PeripheralController.swift in Sources */,
 				E4797EED2AFE703E00E556B1 /* FriendshipFinderiOSApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
