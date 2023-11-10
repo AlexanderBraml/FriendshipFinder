@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.os.Handler;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     private BluetoothAdapter bluetoothAdapter;
     private ArrayAdapter<String> devicesArrayAdapter;
+    private final Handler handler = new Handler();
+    private static final long SCAN_INTERVAL = 10 * 1000; // Scan every 10 seconds
 
     @RequiresApi(api = Build.VERSION_CODES.S)
     @Override
@@ -59,7 +62,22 @@ public class MainActivity extends AppCompatActivity {
         Log.d("lool", "test1");
         Log.d("lool", "after");
 
+        startDeviceDiscovery();
+    }
+
+    private void startDeviceDiscovery() {
+        // Start the initial discovery
         bluetoothAdapter.startDiscovery();
+
+        // Schedule a repeated task for continuous scanning
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Restart device discovery after SCAN_INTERVAL
+                bluetoothAdapter.startDiscovery();
+                handler.postDelayed(this, SCAN_INTERVAL);
+            }
+        }, SCAN_INTERVAL);
     }
 
     @Override
