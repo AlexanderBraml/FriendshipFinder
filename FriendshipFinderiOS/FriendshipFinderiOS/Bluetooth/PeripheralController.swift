@@ -42,7 +42,7 @@ class PeripheralController: NSObject, ObservableObject, CBPeripheralManagerDeleg
     
     func addServices() {
         let valueData = "Friend".data(using: .utf8)
-        let myChar = CBMutableCharacteristic(type: CBUUID(nsuuid: UUID()), properties: [.read], value: valueData, permissions: [.readable])
+        let myChar = CBMutableCharacteristic(type: CBUUID(nsuuid: UUID(uuidString: "0949F341-11A9-4BF9-BE13-877D2FD8946F")!), properties: [.read], value: valueData, permissions: [.readable])
         service.characteristics = [myChar]
         peripheralManager.add(service)
     }
