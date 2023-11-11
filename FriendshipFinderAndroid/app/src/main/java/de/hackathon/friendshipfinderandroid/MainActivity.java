@@ -48,21 +48,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-//        if (bluetoothAdapter == null) {
-//            return;
-//        }
-//        boolean succ = bluetoothAdapter.setName("E");
-
-        //Log.d("bls", "" + succ);
-//
-//        if (!bluetoothAdapter.isEnabled()) {
-//            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//            startActivityForResult(enableBtIntent, 1);
-//        }
-//        Bls = new BleSender(bluetoothAdapter);
-//        Bls.SetAdvertiseSetting();
-//        Bls.SetAdvertiseData();
-//        Bls.StartAdvertising();
 
         ListView devicesListView = findViewById(R.id.devicesListView);
         devicesArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
