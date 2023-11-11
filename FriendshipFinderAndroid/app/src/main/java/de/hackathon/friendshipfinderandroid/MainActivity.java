@@ -8,17 +8,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.os.Handler;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivity(myIntent);
         });
 
-//        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 //        if (bluetoothAdapter == null) {
 //            return;
 //        }
@@ -65,15 +64,15 @@ public class MainActivity extends AppCompatActivity {
 //        Bls.SetAdvertiseData();
 //        Bls.StartAdvertising();
 
-       ListView devicesListView = findViewById(R.id.devicesListView);
-       devicesArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-       devicesListView.setAdapter(devicesArrayAdapter);
+        ListView devicesListView = findViewById(R.id.devicesListView);
+        devicesArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        devicesListView.setAdapter(devicesArrayAdapter);
 
         // showPairedDevices();
 
-       IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-       registerReceiver(receiver, filter);
-       startDeviceDiscovery();
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(receiver, filter);
+        startDeviceDiscovery();
         PeripheralManager m = new PeripheralManager(getBaseContext());
         m.startAdvertising();
     }
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if(!bluetoothDevices.contains(device.getAddress())) {
+                if (!bluetoothDevices.contains(device.getAddress())) {
                     bluetoothDevices.add(device.getAddress());
                     if (device.getName() != null) {
                         devicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
