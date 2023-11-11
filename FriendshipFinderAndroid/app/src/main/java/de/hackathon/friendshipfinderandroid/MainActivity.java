@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.os.Handler;
 import androidx.annotation.RequiresApi;
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
        registerReceiver(receiver, filter);
-       //startDeviceDiscovery();
+       startDeviceDiscovery();
         PeripheralManager m = new PeripheralManager(getBaseContext());
         m.startAdvertising();
     }

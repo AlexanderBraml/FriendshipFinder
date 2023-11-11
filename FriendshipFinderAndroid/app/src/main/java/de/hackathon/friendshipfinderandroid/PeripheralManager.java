@@ -41,7 +41,8 @@ public class PeripheralManager extends BluetoothGattServerCallback {
     }
 
     public void addCServices(){
-        BluetoothGattCharacteristic char1 = new BluetoothGattCharacteristic(UUID.randomUUID(),BluetoothGattCharacteristic.PROPERTY_READ,BluetoothGattCharacteristic.PERMISSION_READ);
+        BluetoothGattCharacteristic char1 = new BluetoothGattCharacteristic(UUID.fromString("0949F341-11A9-4BF9-BE13-877D2FD8946F"),BluetoothGattCharacteristic.PROPERTY_READ,BluetoothGattCharacteristic.PERMISSION_READ);
+        char1.setValue("E");
         service.addCharacteristic(char1);
         server.addService(service);
     }
