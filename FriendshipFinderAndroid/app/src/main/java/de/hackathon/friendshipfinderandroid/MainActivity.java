@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.os.Handler;
 import androidx.annotation.RequiresApi;
@@ -39,8 +40,14 @@ public class MainActivity extends AppCompatActivity {
                 android.Manifest.permission.BLUETOOTH,
                 android.Manifest.permission.BLUETOOTH_ADMIN,
                 android.Manifest.permission.BLUETOOTH_CONNECT,
-                android.Manifest.permission.BLUETOOTH_SCAN};
+                android.Manifest.permission.BLUETOOTH_SCAN,
+                android.Manifest.permission.BLUETOOTH_ADVERTISE};
         ActivityCompat.requestPermissions(this, permissions, 12453);
+
+        findViewById(R.id.toProfilePage).setOnClickListener(v -> {
+            Intent myIntent = new Intent(MainActivity.this, ProfileActivity.class);
+            MainActivity.this.startActivity(myIntent);
+        });
 
 //        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 //        if (bluetoothAdapter == null) {
